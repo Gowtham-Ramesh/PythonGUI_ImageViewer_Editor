@@ -6,7 +6,7 @@ from tkinter import filedialog
 import glob
 from PIL import ImageTk, Image
 
-
+from restore import img_repair
 # Function to display images
 def display_images(in_dir, out_dir):
     # Get the path to the image directory
@@ -64,7 +64,7 @@ def display_images(in_dir, out_dir):
         os.makedirs(dst_path, exist_ok=True)
         shutil.copy2(src_path, dst_path)
 
-    def button_click_rot():
+    def button_click_rota():
         nonlocal current_image_index
         update_image_label(current_image_index, rot=True)
         file_name = image_files[current_image_index].split('.')
@@ -78,19 +78,30 @@ def display_images(in_dir, out_dir):
         rot = rot.rotate(90)
         rot.save(file_name)
 
+    def button_click_repa():
+        nonlocal current_image_index
+        print(current_image_index)
+        src_path = os.path.join(directory, image_files[current_image_index])
+        dst_path = os.path.join(out_dir)
+        img_repair(src_path, dst_path)
+        print(current_image_index)
+
 
     # Create a button widget
     button_next = tk.Button(window, text="Next", command=button_click_next)
     button_prev = tk.Button(window, text="Previous", command=button_click_prev)
     button_save = tk.Button(window, text="Save", command=button_click_save)
-    button_rot = tk.Button(window, text="Rotate", command=button_click_rot)
+    button_rota = tk.Button(window, text="Rotate", command=button_click_rota)
+    button_repa = tk.Button(window, text="Repair", command=button_click_repa)
+
 
 
     # Pack the button widget in the window
     button_next.pack()
     button_prev.pack()
     button_save.pack()
-    button_rot.pack()
+    button_rota.pack()
+    button_repa.pack()
 
     # Pack the image label widget in the window
     image_label.pack()
@@ -106,6 +117,9 @@ window_ = tk.Tk()
 infilepath = filedialog.askdirectory()
 outfilepath = filedialog.askdirectory()
 window_.mainloop()
-# window_.destroy()
+# # window_.destroy()
 
 display_images(infilepath, outfilepath)    
+
+# GFPGAN
+# img_repair(infilepath, outfilepath)
