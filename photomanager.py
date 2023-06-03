@@ -6,6 +6,7 @@ from tkinter import filedialog
 import glob
 from PIL import ImageTk, Image
 
+
 # Function to display images
 def display_images(in_dir, out_dir):
     # Get the path to the image directory
